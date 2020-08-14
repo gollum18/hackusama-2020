@@ -68,6 +68,30 @@ mod ipfs_ks {
                 files: InkHashMap::new()
             }
         }
+
+        #[ink(message)]
+        fn num_users(&self) -> u32 {
+            self.balances.len()
+        }
+
+        #[ink[message]]
+        fn num_files(&self) -> u32 {
+            self.files.len()
+        }
+
+        #[ink(message)]
+        fn is_user_registered(&self, account: AccountId) -> bool {
+            self.balances.get(&account).is_some()
+        }
+
+        #[ink(message)]
+        fn register(&mut self, account: AccountId, initial_balance: Balance) -> bool {
+            if self.is_user_registered(*&account) {
+                return false
+            }
+            self.balances.insert(account, initial_balance);
+            true
+        }
         
         #[ink(message)]
         fn deposit(&mut self, value: Balance) -> bool {
@@ -245,6 +269,104 @@ mod ipfs_ks {
     mod tests {
         /// Imports all the definitions from the outer scope so we can use them here.
         use super::*;
+        use ink_core::env;
 
+        /*fn run_test<F>(test_fn: F) 
+        where
+            F: FnOnce()
+        {
+            env::test::run_test::<env::DefaultEnvTypes, _>(|_| {
+                test_fn();
+                Ok(())
+            })  
+            .unwrap()  
+        }
+
+        #[test]
+        fn test_constructor() {
+            run_test(|| {
+                let ipfs_ks = IpfsKs::new();
+                assert_eq!(ipfs_ks.num_users(), 0);
+                assert_eq!(ipfs_ks.num_files(), 0);
+            })
+        }
+
+        #[test]
+        fn test_registration {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_good_deposit() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_bad_deposit() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_good_withdrawal() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_bad_withdrawal() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        test_balance() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_create_file() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_delete_file() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_read_file() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_write_file() {
+            run_test(|| {
+
+            })
+        }
+
+        #[test]
+        fn test_charge_function() {
+            run_test(|| {
+
+            })
+        }*/
+    
     }
 }
